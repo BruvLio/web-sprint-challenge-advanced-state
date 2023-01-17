@@ -35,7 +35,7 @@ const Wheel = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-     wheel: state.wheel
+    wheel: state.wheel
   };
 }
 export default connect(mapStateToProps, { moveCounterClockwise, moveClockwise })(Wheel);
