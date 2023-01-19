@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE, SET_QUIZ_INTO_STATE } from "./action-types"
+import { MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE, SET_INFO_MESSAGE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER } from "./action-types"
 
 
 // ❗ You don't need to add extra action creators to achieve MVP
@@ -12,7 +12,9 @@ export function moveCounterClockwise() {
   return ({ type: MOVE_COUNTERCLOCKWISE });
 }
 
-export function selectAnswer() { }
+export function selectAnswer(answerId) {
+  return ({ type: SET_SELECTED_ANSWER, payload: answerId });
+}
 
 export function setMessage() { }
 
@@ -24,6 +26,7 @@ export function resetForm() { }
 
 // ❗ Async action creators
 export function fetchQuiz() {
+  // alert("YOLO")
   return function (dispatch) {
     dispatch({ type: SET_QUIZ_INTO_STATE, payload: null }); // resets the quiz state
 
@@ -35,14 +38,23 @@ export function fetchQuiz() {
     // - Dispatch an action to send the obtained quiz to its state
   }
 }
-export function postAnswer() {
+export function postAnswer(quiz_id, answer_id) {
   return function (dispatch) {
+    axios
+      .post('http://localhost:9000/api/quiz/answer', { quiz_id, answer_id })
+      .then(res => {
+        dispatch({ type: SET_SELECTED_ANSWER, payload: null })
+        dispatch({ type: SET_INFO_MESSAGE, payload: res.data.message })
+        fetchQuiz()(dispatch)
+      })
+    // `{ "quiz_id": "LVqUh", "answer_id": "0VEv0" }`
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
     // - Dispatch an action to set the server message to state
     // - Dispatch the fetching of the next quiz
   }
 }
+
 export function postQuiz() {
   return function (dispatch) {
     // On successful POST:
@@ -51,3 +63,9 @@ export function postQuiz() {
   }
 }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
+
+
+// const lionel = ( number ) => {
+//   return number;
+// }
+// lionel(3)
