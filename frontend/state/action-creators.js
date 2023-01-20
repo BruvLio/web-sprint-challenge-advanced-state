@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE, SET_INFO_MESSAGE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER } from "./action-types"
+import { INPUT_CHANGE, MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE, RESET_FORM, SET_INFO_MESSAGE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER } from "./action-types"
 
 
 // ❗ You don't need to add extra action creators to achieve MVP
@@ -16,13 +16,32 @@ export function selectAnswer(answerId) {
   return ({ type: SET_SELECTED_ANSWER, payload: answerId });
 }
 
-export function setMessage() { }
+export function setMessage(message) {
+  return ({ type: SET_INFO_MESSAGE, payload: message })
+}
 
-export function setQuiz() { }
+export function setQuiz(quiz) {
+  return function (dispatch) {
+    axios
+      .post('http://localhost:9000/api/quiz/new', { question_text: quiz.newQuestion, true_answer_text: quiz.newTrueAnswer, false_answer_text: quiz.newFalseAnswer })
+      .then(res => {
+        dispatch({ type: SET_INFO_MESSAGE, payload: res.statusText })
+        resetForm()
+      })
+  }
 
-export function inputChange() { }
+  // setMessage(res.data.message)
+  // resetForm()
+}
 
-export function resetForm() { }
+export function inputChange(id, value) {
+  return ({ type: INPUT_CHANGE, payload: { id, value } })
+}
+
+export function resetForm() {
+  // alert("I'm at reset action creater")
+  return ({ type: RESET_FORM })
+}
 
 // ❗ Async action creators
 export function fetchQuiz() {

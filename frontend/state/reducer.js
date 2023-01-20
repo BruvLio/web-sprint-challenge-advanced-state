@@ -1,6 +1,6 @@
 // ❗ You don't need to add extra reducers to achieve MVP
 import { combineReducers } from 'redux'
-import { MOVE_COUNTERCLOCKWISE, MOVE_CLOCKWISE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER, SET_INFO_MESSAGE } from './action-types';
+import { MOVE_COUNTERCLOCKWISE, MOVE_CLOCKWISE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER, SET_INFO_MESSAGE, INPUT_CHANGE, RESET_FORM } from './action-types';
 
 const initialWheelState = 0
 function wheel(state = initialWheelState, action) {
@@ -55,7 +55,42 @@ const initialFormState = {
   newFalseAnswer: '',
 }
 function form(state = initialFormState, action) {
-  return state
+  switch (action.type) {
+    case INPUT_CHANGE:
+      return {
+        ...state,
+        [action.payload.id]: action.payload.value
+      }
+    case RESET_FORM:
+      alert("I'm HERERERERER")
+      return {
+        ...state
+      }
+    default:
+      return state
+  }
 }
 
 export default combineReducers({ wheel, quiz, selectedAnswer, infoMessage, form })
+
+
+// [1, 2, 3, 4]
+// const TestArr = [
+//   {
+//     name: 'Lionel',
+//     age: 65,
+//     gender: 'Male'
+//   },
+//   {
+//     name: 'Toya',
+//     age: 40,
+//     gender: 'Female'
+//   },
+//   {
+//     name: 'Stark',
+//     age: 30,
+//     gender: 'Male'
+//   }
+// ]
+
+// const newArr = TestArr.map((person) => ({[person.gender]: person.name }))
