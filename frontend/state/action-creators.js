@@ -25,8 +25,8 @@ export function setQuiz(quiz) {
     axios
       .post('http://localhost:9000/api/quiz/new', { question_text: quiz.newQuestion, true_answer_text: quiz.newTrueAnswer, false_answer_text: quiz.newFalseAnswer })
       .then(res => {
-        dispatch({ type: SET_INFO_MESSAGE, payload: res.statusText })
-        resetForm()
+        dispatch({ type: SET_INFO_MESSAGE, payload: `Congrats: "${quiz.newQuestion}" is a great question!` }) /**Reviewed with Chris. Added the message from test*/ 
+        dispatch(resetForm())
       })
   }
 
@@ -39,7 +39,6 @@ export function inputChange(id, value) {
 }
 
 export function resetForm() {
-  // alert("I'm at reset action creater")
   return ({ type: RESET_FORM })
 }
 

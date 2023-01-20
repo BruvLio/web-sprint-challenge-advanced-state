@@ -59,13 +59,10 @@ function form(state = initialFormState, action) {
     case INPUT_CHANGE:
       return {
         ...state,
-        [action.payload.id]: action.payload.value
+        [action.payload.id]: action.payload.value /** Added Trim here */
       }
     case RESET_FORM:
-      alert("I'm HERERERERER")
-      return {
-        ...state
-      }
+      return initialFormState //Reviewed With Chris 
     default:
       return state
   }

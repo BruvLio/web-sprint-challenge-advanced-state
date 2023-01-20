@@ -4,7 +4,11 @@ import { fetchQuiz, selectAnswer, postAnswer } from '../state/action-creators';
 
 const Quiz = (props) => {
   useEffect(() => {
-    props.fetchQuiz()
+    if (!props.quiz) //Reviewed with Chris
+    {
+
+      props.fetchQuiz()
+    }
   }, [])
 
   return (
@@ -41,7 +45,7 @@ const Quiz = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {   
+const mapStateToProps = (state) => {
   return {
     quiz: state.quiz,
     selectedAnswer: state.selectedAnswer
